@@ -16,8 +16,7 @@ let dino = {
     x : dinoX,
     y : dinoY,
     width : dinoWidth,
-    height : dinoHeight,
-    alive : true
+    height : dinoHeight
 }
 let dinoImg;
 let jumpDino = false;
@@ -35,7 +34,6 @@ let ball = {
     alive : true
 }
 let ballImg;
-let ballArray = [];
 let colision = false;
 
 //time animation
