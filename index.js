@@ -112,7 +112,15 @@ function updateBall(secondsPassed) {
         if (ball.x <= - tileSize) {
             timePassed = secondsPassed;
             ball.x = boardWidth;
+            objectSpeed();
         }
+    }
+}
+
+function objectSpeed() {
+    if (ballMovingSpeed >= 0.7) {
+        ballMovingSpeed -= 0.5;
+        dinoMovingSpeed -= 0.05;
     }
 }
 
@@ -124,7 +132,7 @@ function updateDino(secondsPassed) {
     //calculates the movement of the dino from the bottom to the maximum jump position and then back down
     if (jumpDino) {
         if (!dinoDirectionDown && dino.y > boardHeight / 3) {
-        dino.y = easeLinear(dinoTimePassed, dinoY, - boardHeight / 2, dinoMovingSpeed);
+            dino.y = easeLinear(dinoTimePassed, dinoY, - boardHeight / 2, dinoMovingSpeed);
         }
         if (dino.y < boardHeight / 3) {
             dinoTimePassed = 0;
@@ -200,6 +208,8 @@ function restartGame(e) {
             endTime = 0;
             playTime = 0;
             gameOver = false;
+            ballMovingSpeed = 3;
+            dinoMovingSpeed = 0.4;
             requestAnimationFrame(gameLoop);
         }
     }
