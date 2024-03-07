@@ -102,23 +102,16 @@ function updateBall(secondsPassed) {
     if (ball.alive) {
         // Move forward in time with a maximum amount for each frame
         secondsPassed = Math.min(secondsPassed, 0.1);
-
         timePassed += secondsPassed;
-        // console.log(" ! timePassed = " + timePassed);
 
         // Clear the entire canvas
         context.clearRect(0, 0, board.width, board.height);
-        
-        // if (ballArray < 5) {
-        //     ballArray.push(new ball());
-        // }
 
         //Use different easing functions for different effects.
         if (ball.x > - tileSize) {
             ball.x = easeLinear(timePassed, boardWidth, - boardWidth, ballMovingSpeed);
         }
         if (ball.x <= - tileSize) {
-            //timePassed = 0;
             timePassed = secondsPassed;
             ball.x = boardWidth;
         }
@@ -133,19 +126,14 @@ function updateDino(secondsPassed) {
     //calculates the movement of the dino from the bottom to the maximum jump position and then back down
     if (jumpDino) {
         if (!dinoDirectionDown && dino.y > boardHeight / 3) {
-        // console.log(" --> UP position dino.y = " + dino.y);
-        // console.log("Up TIMEpassed = " + dinoTimePassed);
         dino.y = easeLinear(dinoTimePassed, dinoY, - boardHeight / 2, dinoMovingSpeed);
         }
         if (dino.y < boardHeight / 3) {
-            // console.log(" // A AJUNS SUS - RESET TIME PASSED");
             dinoTimePassed = 0;
             dinoDirectionDown = true;
             dino.y = boardHeight / 3;
         }
         if (dinoDirectionDown && dino.y < dinoY) {
-            // console.log(" --> DOWN position dino.y = " + dino.y);
-            // console.log("DW TIMEpassed = " + dinoTimePassed);
             dino.y = easeLinear(dinoTimePassed, dino.y, 5, dinoMovingSpeed);
         }
         if (dino.y >= dinoY) {
@@ -162,20 +150,18 @@ function updateDino(secondsPassed) {
 //b - coordinate of the Starting position on the x or y axis
 //c - the number of intermediate frames until the end position on the x or y axis
 //d - the time in seconds for making the animation from position 'b' to position 'c'
-function easeLinear (t, b, c, d) {
+function easeLinear(t, b, c, d) {
     return c * t / d + b;
 }
 
 function drawInterval() {
     context.drawImage(ballImg, ball.x, ball.y, ball.width, ball.height);
 }
+
 function draw() {
     loopTime = Date.now();
     context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
     context.drawImage(ballImg, ball.x, ball.y, ball.width, ball.height);
-    
-    //setInterval(drawInterval, 1);
-    //context.drawImage(ballImg, ball.x + 10, ball.y - tileSize, ball.width * 2, ball.height * 2);
 }
 
 function displayScore() {
@@ -186,7 +172,7 @@ function displayScore() {
     context.font = "bold 20px courier";
     context.fillText(playTime, 550, 15);
 
-    //display the high score
+    //display the highest score
     if (highScore > 0) {
         context.fillStyle = "red";
         context.font = "bold 20px courier";
@@ -204,7 +190,7 @@ function jump(e) {
 function restartGame(e) {
     if (e.code == 'KeyS' || e.code == 'Keys') {
         if (gameOver) {
-            //calculate the high score
+            //calculate the highest score
             if (highScore < playTime) {
                 highScore = playTime;
             }
@@ -223,7 +209,6 @@ function restartGame(e) {
 
 function dinoCollision() {
     if (ball.alive && detectCollision(ball, dino)) {
-        console.log(" D <-- @  COLLISION at ball.x = " + ball.x + " / ball.y = " + ball.y + " --> dino.x = " + dino.x + " / dino.y = " + dino.y);
         ball.alive = false;
         gameOver = true;
     }
@@ -232,12 +217,8 @@ function dinoCollision() {
         context.font = "bold 100px courier";
         context.fillText("GAME OVER", 34, 170);
     }
-    console.log("ball.alive" + ball.alive + " / detectColl = " + detectCollision);
 }
 
 function detectCollision(a, b) {
     return a.x <= b.x + tileSize * 2 && a.x >= b.x - tileSize / 2 && a.y <= b.y + tileSize * 2;
-    // return a.x <= b.x + 60 && a.x >= b.x - tileSize / 2 && a.y <= b.y + 60;
-    //return a.x + tileSize >= b.x && a.x + tileSize <= b.x + tileSize * 2 && a.y <= b.y + tileSize * 3;
-    //return a.x <= b.x + tileSize * 2 && a.y <= b.y + tileSize * 3  || a.x + tileSize >= b.x && a.x + tileSize <= b.x + tileSize * 2 && a.y <= b.y + tileSize * 3;
 }
